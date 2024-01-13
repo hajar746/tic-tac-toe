@@ -90,12 +90,54 @@ function gameController() {
     console.log(`${player.getActivePlayer().name}'s turn.`);
   };
 
+  const checkRound = () => {
+    // checking for 3 in a rows
+    let row1 = [];
+    let row2 = [];
+    let row3 = [];
+    for (const square of board.getBoard()[0]) {
+      row1.push(square.getSqValue());
+    }
+    for (const square of board.getBoard()[1]) {
+      row2.push(square.getSqValue());
+    }
+    for (const square of board.getBoard()[2]) {
+      row3.push(square.getSqValue());
+    }
+
+    if (
+      row1.every((v) => v === "X") ||
+      row2.every((v) => v === "X") ||
+      row3.every((v) => v === "X")
+    ) {
+      console.log(`GAME OVER! ${player.getActivePlayer().name} wins.`);
+      board.printBoard();
+    } else if (
+      row1.every((v) => v === "O") ||
+      row2.every((v) => v === "O") ||
+      row1.every((v) => v === "O")
+    ) {
+      console.log(`GAME OVER! ${player.getActivePlayer().name} wins.`);
+      board.printBoard();
+    } else {
+      player.switchPlayerTurn();
+      printNewRound();
+    }
+    // checking first column
+  };
+
   const playRound = (row, column) => {
     console.log(`${player.getActivePlayer().name} is marking a square...`);
     board.markSquare(row, column, player.getActivePlayer().marker);
+    player.getActivePlayer().roundsPlayed++;
+    console.log(player.getActivePlayer().roundsPlayed);
 
-    player.switchPlayerTurn();
-    printNewRound();
+    if (player.getActivePlayer().roundsPlayed >= 3) {
+      checkRound();
+    } else {
+      player.switchPlayerTurn();
+      printNewRound();
+    }
   };
 
   //   start game
@@ -103,17 +145,8 @@ function gameController() {
 
   return {
     playRound,
-    checkRound,
   };
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 const game = gameController();
-
-function checkRound() {
-  const player = Player();
-
-  if (player.getActivePlayer().roundsPlayed >= 3) {
-  }
-  console.log(board.getBoard()[0][0].getSqValue());
-}
