@@ -80,7 +80,7 @@ function Player(player1 = "Player 1", player2 = "Player 2") {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// GAME CONTROL FUNC: MAKES NEW BOARD AND PLAYER, PLAYS ROUND AND PRINTS UPDATED GAMEBOARD
+// GAME CONTROL FUNC: MAKES NEW BOARD AND PLAYER, PLAYS ROUND, CHECKS FOR 3 IN A ROWS AND PRINTS UPDATED GAMEBOARD
 function gameController() {
   const board = Gameboard();
   const player = Player();
@@ -90,24 +90,44 @@ function gameController() {
     console.log(`${player.getActivePlayer().name}'s turn.`);
   };
 
-  // check for 3 in a row
-  const check = () => {
-    // checking all rows
-    if (
-      board.getBoard()[0].every((val) => val.getSqValue() === "X") ||
-      board.getBoard()[1].every((val) => val.getSqValue() === "X") ||
-      board.getBoard()[2].every((val) => val.getSqValue() === "X")
-    ) {
-      console.log(`GAME OVER. ${player.getActivePlayer().name} wins!!`);
-      board.printBoard();
-    } else if (
-      board.getBoard()[0].every((val) => val.getSqValue() === "O") ||
-      board.getBoard()[1].every((val) => val.getSqValue() === "O") ||
-      board.getBoard()[2].every((val) => val.getSqValue() === "O")
-    ) {
-      console.log(`GAME OVER. ${player.getActivePlayer().name} wins!!`);
-      board.printBoard();
-    } else {
+  const checkRound = () => {
+    let gameover = false;
+    let columns = [[], [], []];
+
+    // getting column values
+    for (let i = 0; i < 3; i++) {
+      const eachRow = board.getBoard()[i];
+      for (let i = 0; i < 3; i++) {
+        columns[i].push(eachRow[i].getSqValue());
+      }
+    }
+
+    for (let i = 0; i < 3; i++) {
+      // checking rows
+      if (board.getBoard()[i].every((val) => val.getSqValue() === "X")) {
+        console.log(`GAME OVER. ${player.getActivePlayer().name} wins!!`);
+        board.printBoard();
+        gameover = true;
+      }
+      if (board.getBoard()[i].every((val) => val.getSqValue() === "O")) {
+        console.log(`GAME OVER. ${player.getActivePlayer().name} wins!!`);
+        board.printBoard();
+        gameover = true;
+      }
+      // checking columns
+      if (columns[i].every((val) => val === "X")) {
+        console.log(`GAME OVER. ${player.getActivePlayer().name} wins!!`);
+        board.printBoard();
+        gameover = true;
+      }
+      if (columns[i].every((val) => val === "O")) {
+        console.log(`GAME OVER. ${player.getActivePlayer().name} wins!!`);
+        board.printBoard();
+        gameover = true;
+      }
+    }
+
+    if (gameover === false) {
       player.switchPlayerTurn();
       printNewRound();
     }
@@ -120,7 +140,7 @@ function gameController() {
     console.log(player.getActivePlayer().roundsPlayed);
 
     if (player.getActivePlayer().roundsPlayed >= 3) {
-      check();
+      checkRound();
     } else {
       player.switchPlayerTurn();
       printNewRound();
