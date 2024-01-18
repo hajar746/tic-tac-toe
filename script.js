@@ -93,6 +93,8 @@ function gameController() {
   const checkRound = () => {
     let gameover = false;
     let columns = [[], [], []];
+    let diagonal1 = [];
+    let diagonal2 = [];
 
     // getting column values
     for (let i = 0; i < 3; i++) {
@@ -101,6 +103,15 @@ function gameController() {
         columns[i].push(eachRow[i].getSqValue());
       }
     }
+
+    // getting diagonal values
+    for (let i = 0; i < 3; i++) {
+      const eachRow = board.getBoard()[i];
+      diagonal1.push(eachRow[i].getSqValue());
+    }
+    diagonal2.push(board.getBoard()[0][2].getSqValue());
+    diagonal2.push(board.getBoard()[1][1].getSqValue());
+    diagonal2.push(board.getBoard()[2][0].getSqValue());
 
     for (let i = 0; i < 3; i++) {
       // checking rows
@@ -125,6 +136,26 @@ function gameController() {
         board.printBoard();
         gameover = true;
       }
+    }
+    // checking diagonally
+    if (diagonal1.every((val) => val === "X")) {
+      console.log(`GAME OVER. ${player.getActivePlayer().name} wins!!`);
+      board.printBoard();
+      gameover = true;
+    }
+    if (diagonal1.every((val) => val === "O")) {
+      printWinner();
+      gameover = true;
+    }
+    if (diagonal2.every((val) => val === "X")) {
+      console.log(`GAME OVER. ${player.getActivePlayer().name} wins!!`);
+      board.printBoard();
+      gameover = true;
+    }
+    if (diagonal2.every((val) => val === "O")) {
+      console.log(`GAME OVER. ${player.getActivePlayer().name} wins!!`);
+      board.printBoard();
+      gameover = true;
     }
 
     if (gameover === false) {
