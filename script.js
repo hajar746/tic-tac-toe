@@ -84,6 +84,7 @@ function Player(player1 = "Player 1", player2 = "Player 2") {
 function gameController() {
   const board = Gameboard();
   const player = Player();
+  let gameover = false;
 
   const printNewRound = () => {
     board.printBoard();
@@ -91,7 +92,6 @@ function gameController() {
   };
 
   const checkRound = () => {
-    let gameover = false;
     let columns = [[], [], []];
     let diagonal1 = [];
     let diagonal2 = [];
@@ -157,11 +157,20 @@ function gameController() {
       board.printBoard();
       gameover = true;
     }
+    // checking for a tie
+    if (gameover === false && player.getActivePlayer().roundsPlayed === 5) {
+      checkTie();
+    }
 
     if (gameover === false) {
       player.switchPlayerTurn();
       printNewRound();
     }
+  };
+
+  const checkTie = () => {
+    console.log(`GAME OVER. IT'S A TIE!!`);
+    gameover = true;
   };
 
   const playRound = (row, column) => {
