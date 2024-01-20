@@ -1,1 +1,28 @@
+.board {
+  border: 2px solid black;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, minmax(50px, 1fr));
+  width: 450px;
+  height: 450px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
+.row {
+  display: flex;
+}
+
+.cell {
+  width: 150px;
+  height: 150px;
+  background-color: aliceblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+h1 {
+  text-align: center;
+}

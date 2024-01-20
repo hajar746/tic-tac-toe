@@ -192,8 +192,52 @@ function gameController() {
 
   return {
     playRound,
+    getBoard: board.getBoard,
+    getActivePlayer: player.getActivePlayer,
   };
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-const game = gameController();
+// DISPLAYING THE GAME ON THE SCREEN
+function ScreenController() {
+  const game = gameController();
+  const playerTurn = document.querySelector(".turn");
+  const boardDiv = document.querySelector(".board");
+
+  const updateScreen = () => {
+    boardDiv.textContent = " ";
+
+    // get the active player and updated board
+    const board = game.getBoard();
+    const activePlayer = game.getActivePlayer();
+    // display active player
+    playerTurn.textContent = `${activePlayer.name}'s turn...`;
+    board.forEach((row, i) => {
+      const rowDiv = document.createElement("div");
+      rowDiv.classList.add("row");
+      rowDiv.dataset.rowNum = i;
+      boardDiv.appendChild(rowDiv);
+      row.forEach((square, i) => {
+        const squareBtn = document.createElement("button");
+        squareBtn.classList.add("cell");
+        squareBtn.dataset.sqrNum = i;
+        squareBtn.textContent = square.getSqValue();
+        rowDiv.appendChild(squareBtn);
+      });
+    });
+  };
+  const clickEvents = (e) => {
+    const selectedSqr = e.target.dataset.sqrNum;
+    const selectedRow = e.target.closest("div").getAttribute("data-row-num");
+    if (!selectedSqr) {
+      return;
+    }
+    game.playRound(selectedRow, selectedSqr);
+    updateScreen();
+  };
+
+  boardDiv.addEventListener("click", clickEvents);
+  updateScreen();
+}
+
+ScreenController();
