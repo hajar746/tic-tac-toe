@@ -37,7 +37,7 @@ function Gameboard() {
 
 // THIS IS THE VALUE OF EACH SQUARE, IT WILL BE ABLE GO ACCESS IT USING CLOSURE
 function Square() {
-  let squareValue = "0";
+  let squareValue = " ";
 
   const addMarker = (marker) => {
     squareValue = marker;
@@ -198,6 +198,7 @@ function ScreenController() {
     const activePlayer = game.getActivePlayer();
     // display active player
     playerTurn.textContent = `${activePlayer.name}'s turn...`;
+    // updating square value in UI
     board.forEach((row, i) => {
       const rowDiv = document.createElement("div");
       rowDiv.classList.add("row");
@@ -213,9 +214,13 @@ function ScreenController() {
     });
   };
   const clickEvents = (e) => {
+    // getting the coordinates of square using dataset
     const selectedSqr = e.target.dataset.sqrNum;
     const selectedRow = e.target.closest("div").getAttribute("data-row-num");
-    if (!selectedSqr) {
+    const sqrValue = e.target.closest(".cell").textContent;
+
+    // return if not you click on gaps or square is already marked
+    if (!selectedSqr || sqrValue !== " ") {
       return;
     }
     game.playRound(selectedRow, selectedSqr);
