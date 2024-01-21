@@ -1,4 +1,5 @@
 "use strict";
+// tic tac toe -by Hajar A
 
 // FACTORY FUNC TO: MAKE BOARD, GET BOARD, PRINT BOARD WITH UPDATED VALUES AND A FUNCTION TO MARK A SQUARE
 function Gameboard() {
@@ -91,6 +92,11 @@ function gameController() {
     console.log(`${player.getActivePlayer().name}'s turn.`);
   };
 
+  const printWinner = () => {
+    console.log(`GAME OVER. ${player.getActivePlayer().name} wins!!`);
+    gameover = true;
+  };
+
   const checkRound = () => {
     let columns = [[], [], []];
     let diagonal1 = [];
@@ -115,47 +121,28 @@ function gameController() {
 
     for (let i = 0; i < 3; i++) {
       // checking rows
-      if (board.getBoard()[i].every((val) => val.getSqValue() === "X")) {
-        console.log(`GAME OVER. ${player.getActivePlayer().name} wins!!`);
-        board.printBoard();
-        gameover = true;
-      }
-      if (board.getBoard()[i].every((val) => val.getSqValue() === "O")) {
-        console.log(`GAME OVER. ${player.getActivePlayer().name} wins!!`);
-        board.printBoard();
-        gameover = true;
+      if (
+        board.getBoard()[i].every((val) => val.getSqValue() === "X") ||
+        board.getBoard()[i].every((val) => val.getSqValue() === "O")
+      ) {
+        printWinner();
       }
       // checking columns
-      if (columns[i].every((val) => val === "X")) {
-        console.log(`GAME OVER. ${player.getActivePlayer().name} wins!!`);
-        board.printBoard();
-        gameover = true;
-      }
-      if (columns[i].every((val) => val === "O")) {
-        console.log(`GAME OVER. ${player.getActivePlayer().name} wins!!`);
-        board.printBoard();
-        gameover = true;
+      if (
+        columns[i].every((val) => val === "X") ||
+        columns[i].every((val) => val === "O")
+      ) {
+        printWinner();
       }
     }
     // checking diagonally
-    if (diagonal1.every((val) => val === "X")) {
-      console.log(`GAME OVER. ${player.getActivePlayer().name} wins!!`);
-      board.printBoard();
-      gameover = true;
-    }
-    if (diagonal1.every((val) => val === "O")) {
+    if (
+      diagonal1.every((val) => val === "X") ||
+      diagonal1.every((val) => val === "O") ||
+      diagonal2.every((val) => val === "X") ||
+      diagonal2.every((val) => val === "O")
+    ) {
       printWinner();
-      gameover = true;
-    }
-    if (diagonal2.every((val) => val === "X")) {
-      console.log(`GAME OVER. ${player.getActivePlayer().name} wins!!`);
-      board.printBoard();
-      gameover = true;
-    }
-    if (diagonal2.every((val) => val === "O")) {
-      console.log(`GAME OVER. ${player.getActivePlayer().name} wins!!`);
-      board.printBoard();
-      gameover = true;
     }
     // checking for a tie
     if (gameover === false && player.getActivePlayer().roundsPlayed === 5) {
@@ -177,7 +164,6 @@ function gameController() {
     console.log(`${player.getActivePlayer().name} is marking a square...`);
     board.markSquare(row, column, player.getActivePlayer().marker);
     player.getActivePlayer().roundsPlayed++;
-    console.log(player.getActivePlayer().roundsPlayed);
 
     if (player.getActivePlayer().roundsPlayed >= 3) {
       checkRound();
@@ -239,5 +225,6 @@ function ScreenController() {
   boardDiv.addEventListener("click", clickEvents);
   updateScreen();
 }
+// ////////////////////////////////////////////////////////////////////////////////
 
 ScreenController();
