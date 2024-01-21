@@ -1,12 +1,91 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Cabin Sketch", sans-serif;
+}
+
+/* START SCREEN */
+
+.start-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 70vh;
+  margin-top: 100px;
+}
+
+.players {
+  display: flex;
+  width: 40%;
+  justify-content: space-around;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+input {
+  padding: 1rem;
+}
+
+.heading {
+  font-size: 3.5rem;
+  margin: 1rem;
+}
+
+.btn-start {
+  align-self: center;
+  background-color: #fff;
+  background-image: none;
+  background-position: 0 90%;
+  background-repeat: repeat no-repeat;
+  background-size: 4px 3px;
+  border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: rgba(0, 0, 0, 0.2) 15px 28px 25px -18px;
+  box-sizing: border-box;
+  color: #41403e;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 1.5rem;
+  line-height: 23px;
+  outline: none;
+  padding: 1.8rem;
+  text-decoration: none;
+  transition: all 235ms ease-in-out;
+  border-bottom-left-radius: 15px 255px;
+  border-bottom-right-radius: 225px 15px;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin-top: 50px;
+}
+
+.btn-start:hover {
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px -5px;
+  transform: translate3d(0, 2px, 0);
+}
+
+.btn-start:focus {
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 4px -6px;
+}
+
+/* GAME BOARD */
+.hidden {
+  display: none;
+}
+
 .board {
-  border: 2px solid black;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(3, minmax(50px, 1fr));
-  width: 450px;
-  height: 450px;
+  width: 390px;
+  height: 390px;
   margin-left: auto;
   margin-right: auto;
+  border: 1.5px solid black;
 }
 
 .row {
@@ -14,13 +93,18 @@
 }
 
 .cell {
-  width: 150px;
-  height: 150px;
-  background-color: aliceblue;
+  width: 130px;
+  height: 130px;
+  border: 1.5px solid black;
+  border-collapse: collapse;
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  font-family: "Cabin Sketch", sans-serif;
+  font-size: 4rem;
+  color: black;
 }
 
 h1 {

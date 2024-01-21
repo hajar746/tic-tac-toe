@@ -67,8 +67,10 @@ function Player(player1 = "Player 1", player2 = "Player 2") {
   ];
 
   let activePlayer = players[0];
+  let secondPlayer = players[1];
 
   const getActivePlayer = () => activePlayer;
+  const getSecondPlayer = () => secondPlayer;
 
   const switchPlayerTurn = () => {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -77,6 +79,7 @@ function Player(player1 = "Player 1", player2 = "Player 2") {
   return {
     getActivePlayer,
     switchPlayerTurn,
+    getSecondPlayer,
   };
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -174,12 +177,13 @@ function gameController() {
   };
 
   //   start game
-  printNewRound();
+  // printNewRound();
 
   return {
     playRound,
     getBoard: board.getBoard,
     getActivePlayer: player.getActivePlayer,
+    getSecondPlayer: player.getSecondPlayer,
   };
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -189,6 +193,7 @@ function ScreenController() {
   const game = gameController();
   const playerTurn = document.querySelector(".turn");
   const boardDiv = document.querySelector(".board");
+  const btnStart = document.querySelector(".btn-start");
 
   const updateScreen = () => {
     boardDiv.textContent = " ";
@@ -227,8 +232,23 @@ function ScreenController() {
     updateScreen();
   };
 
+  const startGame = (e) => {
+    const startScreen = e.target.closest(".start-screen");
+    const gameScreen = document.querySelector(".container");
+
+    // getting player names
+    const input1 = document.querySelector("#p1");
+    const input2 = document.querySelector("#p2");
+    game.getActivePlayer().name = input1.value;
+    game.getSecondPlayer().name = input2.value;
+
+    startScreen.style.display = "none";
+    gameScreen.classList.remove("hidden");
+    updateScreen();
+  };
+
   boardDiv.addEventListener("click", clickEvents);
-  updateScreen();
+  btnStart.addEventListener("click", startGame);
 }
 // ////////////////////////////////////////////////////////////////////////////////
 

@@ -4,10 +4,32 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Connect Four HTML Skeleton</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cabin+Sketch&display=swap"
+      rel="stylesheet"
+    />
     <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <div class="container">
+    <h1 class="heading">Tic Tac Toe</h1>
+    <div class="start-screen">
+      <div class="players">
+        <div class="player-1">
+          <label for="p1">Player 1</label>
+          <input type="text" id="p1" placeholder="Enter your name..." />
+        </div>
+        <div class="player-2">
+          <label for="p2">Player 2</label>
+          <input type="text" id="p2" placeholder="Enter your name..." />
+        </div>
+      </div>
+      <div class="start-game">
+        <button class="btn-start">Start New Game</button>
+      </div>
+    </div>
+    <div class="container hidden">
       <h1 class="turn"></h1>
       <div class="board"></div>
     </div>
