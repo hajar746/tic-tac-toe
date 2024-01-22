@@ -23,16 +23,14 @@ body {
   font-weight: 700;
 }
 
-input {
-  padding: 1rem;
-}
-
 .heading {
   font-size: 3.5rem;
   margin: 1rem;
 }
 
-.btn-start {
+.btn-start,
+.btn-new,
+input {
   align-self: center;
   background-color: #fff;
   background-image: none;
@@ -44,10 +42,12 @@ input {
   border-width: 2px;
   box-shadow: rgba(0, 0, 0, 0.2) 15px 28px 25px -18px;
   box-sizing: border-box;
-  color: #41403e;
+  color: black;
   cursor: pointer;
   display: inline-block;
   font-size: 1.5rem;
+  font-family: "Cabin Sketch", sans-serif;
+  font-weight: 700;
   line-height: 23px;
   outline: none;
   padding: 1.8rem;
@@ -63,16 +63,31 @@ input {
   margin-top: 50px;
 }
 
-.btn-start:hover {
+.btn-start:hover,
+.btn-new:hover {
   box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px -5px;
   transform: translate3d(0, 2px, 0);
 }
 
-.btn-start:focus {
+.btn-start:focus,
+btn-new:focus {
   box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 4px -6px;
 }
 
+input {
+  padding: 1rem;
+  margin: 1rem;
+}
+
 /* GAME BOARD */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 100px;
+}
+
 .hidden {
   display: none;
 }
@@ -109,4 +124,15 @@ input {
 
 h1 {
   text-align: center;
+}
+
+.result {
+  align-self: center;
+  width: 300px;
+}
+
+.winner {
+  font-size: 2rem;
+  text-align: center;
+  font-weight: 700;
 }

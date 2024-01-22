@@ -52,7 +52,7 @@ function Square() {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // PLAYER FACTORY FUNC: STORES PLAYER OBJECTS, STORES ACTIVE PLAYER, GETS ACTIVE PLAYER AND SWITCHS PLAYERS TURN
-function Player(player1 = "Player 1", player2 = "Player 2") {
+function Player(player1, player2) {
   const players = [
     {
       name: player1,
@@ -89,6 +89,8 @@ function gameController() {
   const board = Gameboard();
   const player = Player();
   let gameover = false;
+  // displaying result on UI
+  const gameResult = document.createElement("p");
 
   const printNewRound = () => {
     board.printBoard();
@@ -97,6 +99,9 @@ function gameController() {
 
   const printWinner = () => {
     console.log(`GAME OVER. ${player.getActivePlayer().name} wins!!`);
+    gameResult.textContent = `GAME OVER. ${
+      player.getActivePlayer().name
+    } wins!!`;
     gameover = true;
   };
 
@@ -159,6 +164,7 @@ function gameController() {
   };
 
   const checkTie = () => {
+    gameResult.textContent = `GAME OVER. IT'S A TIE!!`;
     console.log(`GAME OVER. IT'S A TIE!!`);
     gameover = true;
   };
@@ -176,14 +182,12 @@ function gameController() {
     }
   };
 
-  //   start game
-  // printNewRound();
-
   return {
     playRound,
     getBoard: board.getBoard,
     getActivePlayer: player.getActivePlayer,
     getSecondPlayer: player.getSecondPlayer,
+    gameResult,
   };
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -194,6 +198,8 @@ function ScreenController() {
   const playerTurn = document.querySelector(".turn");
   const boardDiv = document.querySelector(".board");
   const btnStart = document.querySelector(".btn-start");
+  const gameScreen = document.querySelector(".container");
+  const resultScreen = gameScreen.lastElementChild;
 
   const updateScreen = () => {
     boardDiv.textContent = " ";
@@ -201,8 +207,11 @@ function ScreenController() {
     // get the active player and updated board
     const board = game.getBoard();
     const activePlayer = game.getActivePlayer();
-    // display active player
+    const result = game.gameResult;
+    // display active player and winner
     playerTurn.textContent = `${activePlayer.name}'s turn...`;
+    result.classList.add("winner");
+    resultScreen.appendChild(result);
     // updating square value in UI
     board.forEach((row, i) => {
       const rowDiv = document.createElement("div");
@@ -239,8 +248,8 @@ function ScreenController() {
     // getting player names
     const input1 = document.querySelector("#p1");
     const input2 = document.querySelector("#p2");
-    game.getActivePlayer().name = input1.value;
-    game.getSecondPlayer().name = input2.value;
+    game.getActivePlayer().name = input1.value || "Player 1";
+    game.getSecondPlayer().name = input2.value || "Player 2";
 
     startScreen.style.display = "none";
     gameScreen.classList.remove("hidden");
