@@ -19,18 +19,10 @@ function Gameboard() {
   const markSquare = (row, column, marker) => {
     board[row][column].addMarker(marker);
   };
-  //   maps board into a new board with all of its values
-  const printBoard = () => {
-    const updatedBoard = board.map((row) =>
-      row.map((square) => square.getSqValue())
-    );
-    console.log(updatedBoard);
-  };
 
   return {
     getBoard,
     markSquare,
-    printBoard,
   };
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -92,17 +84,15 @@ function gameController() {
   // displaying result on UI
   const gameResult = document.createElement("p");
 
-  const printNewRound = () => {
-    board.printBoard();
-    console.log(`${player.getActivePlayer().name}'s turn.`);
-  };
-
   const printWinner = () => {
-    console.log(`GAME OVER. ${player.getActivePlayer().name} wins!!`);
     gameResult.textContent = `GAME OVER. ${
       player.getActivePlayer().name
     } wins!!`;
     gameover = true;
+  };
+
+  const checkAllSame = (arr, val) => {
+    return arr.every((v) => v === val);
   };
 
   const checkRound = () => {
@@ -136,19 +126,16 @@ function gameController() {
         printWinner();
       }
       // checking columns
-      if (
-        columns[i].every((val) => val === "X") ||
-        columns[i].every((val) => val === "O")
-      ) {
+      if (checkAllSame(columns[i], "X") || checkAllSame(columns[i], "O")) {
         printWinner();
       }
     }
     // checking diagonally
     if (
-      diagonal1.every((val) => val === "X") ||
-      diagonal1.every((val) => val === "O") ||
-      diagonal2.every((val) => val === "X") ||
-      diagonal2.every((val) => val === "O")
+      checkAllSame(diagonal1, "X") ||
+      checkAllSame(diagonal1, "O") ||
+      checkAllSame(diagonal2, "X") ||
+      checkAllSame(diagonal2, "O")
     ) {
       printWinner();
     }
@@ -159,18 +146,15 @@ function gameController() {
 
     if (gameover === false) {
       player.switchPlayerTurn();
-      printNewRound();
     }
   };
 
   const checkTie = () => {
     gameResult.textContent = `GAME OVER. IT'S A TIE!!`;
-    console.log(`GAME OVER. IT'S A TIE!!`);
     gameover = true;
   };
 
   const playRound = (row, column) => {
-    console.log(`${player.getActivePlayer().name} is marking a square...`);
     board.markSquare(row, column, player.getActivePlayer().marker);
     player.getActivePlayer().roundsPlayed++;
 
@@ -178,7 +162,6 @@ function gameController() {
       checkRound();
     } else {
       player.switchPlayerTurn();
-      printNewRound();
     }
   };
 
@@ -198,6 +181,7 @@ function ScreenController() {
   const playerTurn = document.querySelector(".turn");
   const boardDiv = document.querySelector(".board");
   const btnStart = document.querySelector(".btn-start");
+  const btnNewGame = document.querySelector(".btn-new");
   const gameScreen = document.querySelector(".container");
   const resultScreen = gameScreen.lastElementChild;
 
@@ -256,8 +240,13 @@ function ScreenController() {
     updateScreen();
   };
 
+  const newGame = () => {
+    location.reload();
+  };
+
   boardDiv.addEventListener("click", clickEvents);
   btnStart.addEventListener("click", startGame);
+  btnNewGame.addEventListener("click", newGame);
 }
 // ////////////////////////////////////////////////////////////////////////////////
 
